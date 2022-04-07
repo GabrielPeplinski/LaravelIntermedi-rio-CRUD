@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Http\Requests\EventRequest;
 
 use App\Models\Event;
 
@@ -16,19 +17,21 @@ class EventController extends Controller
     public function create()
     {
         return view('create');
-    }
+    } 
 
-    public function store(Request $request)
+    public function store(EventRequest $eventRequest)
     {
-        $event = new Event;
+        $data = $eventRequest->validated();
+        
+        Event::query()->create($data);
 
-        $event->name = $request->name;
-        $event->date = $request->date;
-        $event->qtd = $request->qtd;
-        $event->location = $request->location;
-        $event->description = $request->description;
+        /*$event->name = $data[name];
+        $event->date = $data[date];
+        $event->qtd = $data[qtd];
+        $event->location = $data[location];
+        $event->description = $data[description];
 
-        $event->save();
+        $event->save();*/
 
         return view('app');
     }
@@ -57,9 +60,10 @@ class EventController extends Controller
         return view('/edit', ['event' => $event]);
     }
 
-    public function update(Request $request)
+    public function update(Request $request, EventRequest $eventRequest)
     {
-        Event::findOrFail($request->id)->update($request->all());
+        $data = $eventRequest->validated();
+        Event::findOrFail($request->id)->update($data);
 
         return redirect('/list');
         

@@ -41,6 +41,7 @@
             <textarea class="form-control" name="description" rows="3" value="{{ $event->description }}"
                 required placeholder="Descreva..."></textarea>
         </div>
+
         <button type="submit" class="btn btn-outline-primary" value="Editar Evento">Editar Evento</button>
     </form>
 </div>
